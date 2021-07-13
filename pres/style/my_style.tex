@@ -1,0 +1,78 @@
+% Include commonly used packages
+\usepackage{braket}
+\usepackage{listings}
+\usepackage{tabto}
+\usepackage{tikz}
+\usepackage{booktabs}
+
+% Define colours
+\definecolor{cobalt}{rgb}{0.0, 0.28, 0.67}
+\definecolor{darkblue}{rgb}{0.0, 0.0, 0.55}
+\definecolor{davygrey}{rgb}{0.33, 0.33, 0.33}
+\definecolor{trolleygrey}{rgb}{0.5, 0.5, 0.5}
+\definecolor{steelblue}{rgb}{0.27, 0.51, 0.71}
+
+% Set list text size/colours
+\setbeamertemplate{itemize/enumerate body begin}{}
+\setbeamertemplate{itemize/enumerate subbody begin}{\scriptsize}
+\setbeamertemplate{itemize/enumerate subsubbody begin}{\fontsize{8}{11}\selectfont}
+\setbeamercolor{itemize/enumerate body}{fg=black}
+\setbeamercolor{itemize/enumerate subbody}{fg=trolleygrey}
+\setbeamercolor{itemize/enumerate subsubbody}{fg=steelblue}
+
+% Set list bullet colours
+%\setbeamertemplate{itemize item}{$\vcenter{\hbox{\includegraphics[scale=0.02]{style/bullet.jpeg}}}$}
+%\setbeamertemplate{itemize subitem}{$\vcenter{\hbox{\includegraphics[scale=0.013]{style/bullet.jpeg}}}$}
+%\setbeamertemplate{itemize subsubitem}{$\vcenter{\hbox{\includegraphics[scale=0.012]{style/bullet.jpeg}}}$}
+
+% Change the colours of the background theme
+\setbeamercolor*{structure}{bg=cobalt!20,fg=cobalt}
+\setbeamercolor*{palette primary}{use=structure,fg=white,bg=structure.fg!75}
+\setbeamercolor*{palette secondary}{use=structure,fg=white,bg=structure.fg!50}
+\setbeamercolor*{palette tertiary}{use=structure,fg=white,bg=structure.fg!75}
+\setbeamercolor*{palette quaternary}{fg=white,bg=black}
+\setbeamercolor{section in toc}{fg=black,bg=white}
+\setbeamercolor{alerted text}{use=structure,fg=structure.fg!50!black!80!black}
+\setbeamercolor{titlelike}{parent=palette primary,fg=structure.fg!50!black}
+\setbeamercolor{frametitle}{bg=gray!10!white,fg=davygrey}
+\setbeamercolor*{titlelike}{parent=palette primary}
+\setbeamertemplate{frametitle}[default][center]
+\setbeamerfont{frametitle}{series=\bfseries,parent=structure}
+
+
+
+
+
+% Remove section number from section title pages
+\setbeamertemplate{section page}
+{
+    \begin{centering}
+    \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+    \end{beamercolorbox}
+    \end{centering}
+}
+
+% Customise footline (same can be done for headline)
+\makeatother
+\setbeamertemplate{footline}
+{
+    \leavevmode%
+    \hbox{%
+        \begin{beamercolorbox}[wd=.3333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+            \usebeamerfont{author in head/foot}\insertshortauthor
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.3333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+            \usebeamerfont{title in head/foot}\insertinstitute %\insertshorttitle
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.3333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+            \insertdate \hspace*{8ex} \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+        \end{beamercolorbox}}%
+    \vskip0pt%
+}
+\makeatletter
+
+% Turn off coloured bar at the top
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[frame number]
+\setbeamerfont{footline}{size=\bf\scriptsize}
