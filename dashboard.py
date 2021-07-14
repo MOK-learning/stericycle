@@ -204,7 +204,7 @@ app.layout = html.Div([
     monthly charges are significantly more likely to churn than customers
     with lower monthly charges and higher tenure.
 
-    Likewise, customers who have a month-to-month contracts are most likely to churn, 
+    Likewise, customers who have a month-to-month contract are most likely to churn, 
     as are customers who use paperless billing and pay using electronic cheques.
     ''', style={'text-align': 'center'}),
 
