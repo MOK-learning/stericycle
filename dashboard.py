@@ -24,49 +24,100 @@ app = dash.Dash(__name__,
 application = app.server
 
 # Open the csv and get list of runs
+df = pd.read_csv('data/CustomerChurn.csv')
+
+# Rename SeniorCitizen 0/1 as No/Yes
+df.SeniorCitizen = df.SeniorCitizen.map({0: 'No', 1: 'Yes'})
 
 
 # Define the layout of our dashboard
 app.layout = html.Div([
 
     dcc.Markdown('''
-    # Title
-    I am testing some text.
+    # Customer churn 
+    Here we will do some basic data visualisation of the customer churn data.
+    ''', style={'text-align': 'center'}),
+    
+    # Basic churn and gender graphs
+    html.Div(children=[
+        dcc.Graph(id='pie-churn', 
+                  figure=px.pie(df.groupby('Churn').count().reset_index(drop=False), 
+                                values='customerID', 
+                                names='Churn', 
+                                title='How many customers churn?'),
+                  style={'display': 'inline-block', 'width': '50%'}
+                 ), 
+        dcc.Graph(id='pie-gender', 
+                  figure=px.pie(df.groupby('gender').count().reset_index(drop=False), 
+                                values='customerID', 
+                                names='gender', 
+                                title='Gender breakdown of customers'),
+                  style={'display': 'inline-block', 'width': '50%'}
+                 ), 
+    ], style={'text-align': 'center'}), 
+    
+    dcc.Markdown('''
+    It looks like most (73.5%) of the customers are loyal, yay! 
+    A small minority (26.5%) have churned, we need to figure out why.
+    Our customer base is almost evenly split between males and females, 
+    lets check if they are equally likely to churn?
     ''', style={'text-align': 'center'}),
 
-    # Dropdown menu definitions
-    html.Div([
-        dcc.Dropdown(id='year-select', 
-                     options=[{'label': i, 'value': i} for i in ['2015','2016','2017','2018']], 
-                     value='TOR', 
-                     placeholder='Select a year', 
-                     style=dict(width='100%', verticalAlign="middle", color='black')),
-        dcc.Dropdown(id='some-select', 
-                     options=[{'label': i, 'value': i} for i in ['2015','2016','2017','2018']], 
-                     value='TOR', 
-                     placeholder='Select something', 
-                     style=dict(width='100%', verticalAlign="middle", color='black')),
-    ], style=dict(display='flex')),
+    # Male/Female churn graphs
+    html.Div(children=[
+        dcc.Graph(id='pie-churn-male', 
+                  figure=px.pie(df[df.gender == 'Male'].groupby('Churn').count().reset_index(drop=False), 
+                                values='customerID', 
+                                names='Churn', 
+                                title='Percentage of males that churn'),
+                  style={'display': 'inline-block', 'width': '50%'}
+                 ), 
+        dcc.Graph(id='pie-churn-female', 
+                  figure=px.pie(df[df.gender == 'Female'].groupby('Churn').count().reset_index(drop=False), 
+                                values='customerID', 
+                                names='Churn', 
+                                title='Percentage of females that churn'),
+                  style={'display': 'inline-block', 'width': '50%'}
+                 ), 
+    ], style={'text-align': 'center'}), 
+    
+    dcc.Markdown('''
+    There is a negligible difference between the sexes when it comes to 
+    predicting churn.
+    What about other demographic factors such as relationship status (Partner),
+    age (SeniorCitizen) or having children (Dependents)?
+    ''', style={'text-align': 'center'}),
     
 
-    # Define our graphs
+    # Demographic churn graphs
     html.Div(children=[
-        dcc.Graph(id='zee-lumi', style={'display': 'inline-block', 'width': '50%'}), 
-        dcc.Graph(id='zmm-lumi', style={'display': 'inline-block', 'width': '50%'}), 
-    ], style={'text-align': 'center'})
+        dcc.Graph(id='pie-churn-partner', 
+                  figure=px.histogram(df, x='Churn', color='Partner', title='Partner churn', barnorm='percent'),
+                  style={'display': 'inline-block', 'width': '33%'}
+                 ), 
+        dcc.Graph(id='pie-churn-senior', 
+                  figure=px.histogram(df, x='Churn', color='SeniorCitizen', title='Age churn', barnorm='percent'),
+                  style={'display': 'inline-block', 'width': '33%'}
+                 ), 
+        dcc.Graph(id='pie-churn-children', 
+                  figure=px.histogram(df, x='Churn', color='Dependents', title='Children churn', barnorm='percent'),
+                  style={'display': 'inline-block', 'width': '33%'}
+                 ), 
+    ], style={'text-align': 'center'}),
+    
 
-    ], style={'margin-left': '200px', 'margin-right': '200px'})
+    dcc.Markdown('''
+    Customers who do not have partners are about 30% more likely to churn;
+    senior citizens are about 50% less likely to churn; 
+    customers without dependents are 55% more likely to churn.
+    Now that we have looked at demographic factors, 
+    what about the products which the customers are using?
+    Let's find out if this has any impact on the propensity of customers to churn.
+    ''', style={'text-align': 'center'}),
 
 
-@app.callback(
-    Output('zee-lumi', 'figure'),
-    [Input('year-select', 'value')]
-)
-def update_zee(grpname):
-    fig = make_subplots(rows=1, cols=1)
-    fig1 = go.Scatter(mode='markers', x=np.linspace(1, int(grpname), 10), y=np.linspace(1, int(grpname), 10))
-    fig.add_trace(fig1, row=1,col=1)
-    return fig
+], style={'margin-left': '200px', 'margin-right': '200px'})
+
 
 
 if __name__ == "__main__": 
