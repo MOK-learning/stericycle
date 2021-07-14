@@ -166,21 +166,23 @@ app.layout = html.Div([
     # Financial churn graphs
     html.Div(children=[
         dcc.Graph(id='churn-tenure', 
-                  #figure=px.histogram(df, x='Churn', color='tenure', title='Customer tenure churn', barnorm='percent'),
+                  figure=px.histogram(df, x='tenure', color='Churn', title='Customer tenure churn', nbins=10, histnorm='percent'),
                   style={'display': 'inline-block', 'width': '33%'}
                  ), 
         dcc.Graph(id='churn-month', 
-                  #figure=px.histogram(df, x='Churn', color='MonthlyCharges', title='Monthly charges churn', barnorm='percent'),
+                  figure=px.histogram(df, x='MonthlyCharges', color='Churn', title='Monthly charges churn', nbins=10, histnorm='percent'),
                   style={'display': 'inline-block', 'width': '33%'}
                  ), 
         dcc.Graph(id='churn-total', 
-                  #figure=px.histogram(df, x='Churn', color='TotalCharges', title='Total charges churn', barnorm='percent'),
+                  figure=px.histogram(df, x='TotalCharges', color='Churn', title='Total charges churn', nbins=10, histnorm='percent'),
                   style={'display': 'inline-block', 'width': '33%'}
                  ), 
     ], style={'text-align': 'center'}),
     
     dcc.Markdown('''
-    Placeholder...
+    As we can see, customers with low tenure and high 
+    monthly charges are significantly more likely to churn than customers
+    with lower monthly charges and higher tenure.
     ''', style={'text-align': 'center'}),
 
 
