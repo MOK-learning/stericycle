@@ -108,24 +108,24 @@ app.layout = html.Div([
     # Demographic churn graphs
     html.Div(children=[
         dcc.Graph(id='pie-churn-partner', 
-                  figure=px.histogram(df, x='Churn', color='Partner', title='Partner churn', barnorm='percent'),
+                  figure=px.histogram(df, x='Churn', color='Partner', title='Partner churn', histnorm='percent', barmode='group'),
                   style={'display': 'inline-block', 'width': '33%'}
                  ), 
         dcc.Graph(id='pie-churn-senior', 
-                  figure=px.histogram(df, x='Churn', color='SeniorCitizen', title='Age churn', barnorm='percent'),
+                  figure=px.histogram(df, x='Churn', color='SeniorCitizen', title='Age churn', histnorm='percent', barmode='group'),
                   style={'display': 'inline-block', 'width': '33%'}
                  ), 
         dcc.Graph(id='pie-churn-children', 
-                  figure=px.histogram(df, x='Churn', color='Dependents', title='Children churn', barnorm='percent'),
+                  figure=px.histogram(df, x='Churn', color='Dependents', title='Children churn', histnorm='percent', barmode='group'),
                   style={'display': 'inline-block', 'width': '33%'}
                  ), 
     ], style={'text-align': 'center'}),
     
 
     dcc.Markdown('''
-    Customers who do not have partners are about 30% more likely to churn;
-    senior citizens are about 50% less likely to churn; 
-    customers without dependents are 55% more likely to churn.
+    Customers who do not have partners are about 13% more likely to churn;
+    senior citizens are about 18% more likely to churn; 
+    customers without dependents are 16% more likely to churn.
     
     Now that we have looked at demographic factors, 
     what about the products which the customers are using?
@@ -138,15 +138,15 @@ app.layout = html.Div([
     # Product churn graphs
     html.Div(children=[
         dcc.Graph(id='pie-churn-phone', 
-                  figure=px.histogram(df, x='Churn', color='PhoneService', title='Phone service churn', barnorm='percent'),
+                  figure=px.histogram(df, x='Churn', color='PhoneService', title='Phone service churn', histnorm='percent', barmode='group'),
                   style={'display': 'inline-block', 'width': '33%'}
                  ), 
         dcc.Graph(id='pie-churn-internet', 
-                  figure=px.histogram(df, x='Churn', color='InternetService', title='Internet service churn', barnorm='percent'),
+                  figure=px.histogram(df, x='Churn', color='InternetService', title='Internet service churn', histnorm='percent', barmode='group'),
                   style={'display': 'inline-block', 'width': '33%'}
                  ), 
         dcc.Graph(id='pie-churn-streaming', 
-                  figure=px.histogram(df, x='Churn', color='Streaming', title='Streaming service churn', barnorm='percent'),
+                  figure=px.histogram(df, x='Churn', color='Streaming', title='Streaming service churn', histnorm='percent', barmode='group'),
                   style={'display': 'inline-block', 'width': '33%'}
                  ), 
     ], style={'text-align': 'center'}),
@@ -154,12 +154,15 @@ app.layout = html.Div([
     dcc.Markdown('''
     Whether or not a customer uses a phone service does not seem to effect
     whether or not they will churn. 
-    Fibre optic internet users are most likely to churn out of internet service users, 
-    about 40% more likely to churn than other users. 
-    Customers who use streaming services are roughly 13% more likely to churn than those that do not.
+    Fibre optic internet users are most likely to churn out of internet service users,
+    they are about 23% more likely to churn than DSL users and about 35% more likely to churn than customers without
+    an internet service.
+    Customers who use streaming services are roughly 8% more likely to churn than those that do not.
 
     Finally we will look at the financial aspect, based on a customers tenure, 
     monthly charges and total charges.
+    We will also investigate their payment methods, i.e.
+    what kind of contract they are on, their billing method and their payment method.
     ''', style={'text-align': 'center'}),
     
 
@@ -178,11 +181,28 @@ app.layout = html.Div([
                   style={'display': 'inline-block', 'width': '33%'}
                  ), 
     ], style={'text-align': 'center'}),
+    html.Div(children=[
+        dcc.Graph(id='churn-contract', 
+                  figure=px.histogram(df, x='Churn', color='Contract', title='Contract type churn', histnorm='percent', barmode='group'),
+                  style={'display': 'inline-block', 'width': '33%'}
+                 ), 
+        dcc.Graph(id='churn-billing', 
+                  figure=px.histogram(df, x='Churn', color='PaperlessBilling', title='Paperless billing churn', histnorm='percent', barmode='group'),
+                  style={'display': 'inline-block', 'width': '33%'}
+                 ), 
+        dcc.Graph(id='churn-payment', 
+                  figure=px.histogram(df, x='Churn', color='PaymentMethod', title='Payment method churn', histnorm='percent', barmode='group'),
+                  style={'display': 'inline-block', 'width': '33%'}
+                 ), 
+    ], style={'text-align': 'center'}),
     
     dcc.Markdown('''
     As we can see, customers with low tenure and high 
     monthly charges are significantly more likely to churn than customers
     with lower monthly charges and higher tenure.
+
+    Likewise, customers who have a month-to-month contracts are most likely to churn, 
+    as are customers who use paperless billing and pay using electronic cheques.
     ''', style={'text-align': 'center'}),
 
 
