@@ -15,6 +15,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+
 # external CSS stylesheets
 external_stylesheets = [dbc.themes.SUPERHERO]
 
@@ -60,14 +61,16 @@ app.layout = html.Div([
                   figure=px.pie(df.groupby('Churn').count().reset_index(drop=False), 
                                 values='customerID', 
                                 names='Churn', 
-                                title='How many customers churn?'),
+                                title='How many customers churn?'
+                                ),
                   style={'display': 'inline-block', 'width': '50%'}
                  ), 
         dcc.Graph(id='pie-gender', 
                   figure=px.pie(df.groupby('gender').count().reset_index(drop=False), 
                                 values='customerID', 
                                 names='gender', 
-                                title='Gender breakdown of customers'),
+                                title='Gender breakdown of customers'
+                                ),
                   style={'display': 'inline-block', 'width': '50%'}
                  ), 
     ], style={'text-align': 'center'}), 
