@@ -112,5 +112,6 @@ $$
 - What can you do about this?
     - Start new customers out on lower premiums over a short fixed term contract (3 months)?
     - Move electronic cheque customers to a new payment model?
+    - Send all customers paper bills
 - Built a classification model which correctly predicts customer churn with reasonable accuracy    
     - Use this to target prospective churners before they churn!
